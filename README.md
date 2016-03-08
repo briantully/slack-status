@@ -21,7 +21,7 @@ First, get your slack api token [here](https://api.slack.com/docs/oauth-test-tok
 
 Example setup for Mac OSX:
 
-1. Save slack.rb in your home directory
+1. Save [slack.rb](https://raw.githubusercontent.com/rydama/slack-status/master/slack.rb) in your home directory
 2. Open a terminal
 3. `chmod +x slack.rb`
 4. `export SLACK_URL=https://yourteam.slack.com`

@@ -4,8 +4,9 @@
 #
 # 1. Get your api token here: https://api.slack.com/docs/oauth-test-tokens
 # 2. Set the token in the environment: export SLACK_TOKEN=...
-# 3. Save this file somewhere and make it executable (chmod +x slack.rb)
-# 4. It's helpful to setup aliases for the example commands below, such
+# 3. Set the slack url in the environment: export SLACK_URL=yourteam.slack.com
+# 4. Save this file somewhere and make it executable (chmod +x slack.rb)
+# 5. It's helpful to setup aliases for the example commands below, such
 #    as alias lunch='~/slack.rb away lunch'
 #
 # Examples:

@@ -2,9 +2,9 @@
 A ruby script to set your slack status, including an optional "away" message.
 
 # What?
-Slack is great, but it's missing a crucial feature for remote team collaboration: you can't set an away message.
+Slack is great, but it's missing a crucial feature for collaboration: you can't set an away message.
 
-This is a short message to let your teammates know your status. For example, "lunch", or "bb 3:30". For a 100% remote team, this subtle communication is crucial, and improves the efficiency of the team.
+This is a short message to let your teammates know your status. For example, "lunch", or "bb 3:30". For a remote team, this subtle communication is crucial, and improves the efficiency of the team.
 
 There is a kludgy, RSI inducing way to achieve this in slack: edit your profile and set your first name to something like "Ryan (lunch)". This works, but it's a lot of mousing around.
 

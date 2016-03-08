@@ -1,7 +1,7 @@
 # slack-status
 A ruby script to set your slack status, including an optional "away" message.
 
-# What?
+## What?
 Slack is great, but it's missing a crucial feature for collaboration: you can't set an away message.
 
 This is a short message to let your teammates know your status. For example, "lunch", or "bb 3:30". For a remote team, this subtle communication is crucial, and improves the efficiency of the team.
@@ -15,7 +15,7 @@ Note: This hack is useful only if your co-worker's slack preferences are set to 
 ![Settings](https://raw.githubusercontent.com/rydama/slack-status/master/slack-settings.png)
 
 
-# Installation
+## Installation
 
 First, get your slack api token [here](https://api.slack.com/docs/oauth-test-tokens)
 
@@ -24,23 +24,22 @@ Example setup for Mac OSX:
 1. Save [slack.rb](https://raw.githubusercontent.com/rydama/slack-status/master/slack.rb) in your home directory
 2. Open a terminal
 3. `chmod +x slack.rb`
-4. `export SLACK_URL=https://yourteam.slack.com`
-4. `export SLACK_TOKEN=your-slack-token`
-
-
-It's helpful to setup aliases, for example:
-
+4. Edit `.bashrc` and add the following:
 ```
+export SLACK_URL=https://yourteam.slack.com
+export SLACK_TOKEN=your-slack-token
 alias away='~/slack.rb away'
 alias lunch='~/slack.rb away lunch'
 alias back='~/slack.rb back'
 ```
 
-# Example Usage
+Finally, `source .bashrc`
+
+## Example Usage
 
 ```
-./slack.rb {away | back } [message]
-./slack.rb away lunch
-./slack.rb back
-./slack.rb back in meeting
+{away | back } [message]
+away lunch
+back
+back in meeting
 ```

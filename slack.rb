@@ -45,6 +45,10 @@ SET_PROFILE_URL = "#{SLACK_API_ROOT}/users.profile.set?token=#{token}"
 AWAY_URL = "#{SLACK_API_ROOT}/users.setPresence?presence=away&token=#{token}"
 BACK_URL = "#{SLACK_API_ROOT}/users.setPresence?presence=auto&token=#{token}"
 
+# Appends the message to the name. The message is surrounded by parens.
+# If the name already contains parens, the old message is trimmed off
+# the name before the new message is appended.
+# Returns something like: Ryan (at lunch)
 def add_message_to_name(message, name)
   # Remove any existing message
   index = name.index(" (")
@@ -59,6 +63,7 @@ def add_message_to_name(message, name)
   end
 end
 
+# Get the profile from the slack API.
 def get_profile
   response_json = Net::HTTP.get(URI.parse(GET_PROFILE_URL))
   response = JSON.parse(response_json)
@@ -70,6 +75,7 @@ def get_profile
   response["profile"]
 end
 
+# Set the slack status with the given message.
 def set_status(message)
   profile = get_profile
   first_name = add_message_to_name(message, profile["first_name"])
@@ -79,16 +85,20 @@ def set_status(message)
   Net::HTTP.post_form(URI.parse(SET_PROFILE_URL), profile)
 end
 
+# Set the slack status to away with the given message.
 def set_status_away(message)
   Net::HTTP.post_form(URI.parse(AWAY_URL), {})
   set_status(message)
 end
 
+# Set the slack status to present with the given message.
 def set_status_back(message)
   Net::HTTP.post_form(URI.parse(BACK_URL), {})
   set_status(message)
 end
 
+# Get the message from command line args, assuming anything after the first
+# argument is the message.
 def message_from_args
   if ARGV.length > 1
     message = ARGV[1..ARGV.length].join(" ")

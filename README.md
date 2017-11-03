@@ -1,18 +1,20 @@
 # slack-status
 A ruby script to set your slack status, including an optional "away" message.
 
+This is a fork of https://github.com/rydama/slack-status that updates the script to follow Slack's new WebAPI.
+
+In addition to setting one's profile presence (away | auto), this fork now allows you to specify custom status_text and status_emoji.
+
+There are several custom status options to choose from (see below).
+
 ## What?
-Slack is great, but it's missing a crucial feature for collaboration: you can't set an away message.
+Slack is great, and while you can manually set the status_text and status_emoji in the Slack.app UI, it is a rather tedious process.
 
-This is a short message to let your teammates know your status. For example, "lunch", or "bb 3:30". For a remote team, this subtle communication is crucial, and improves the efficiency of the team.
+Slack limits teams to five (5) custom status presets that can be selected in the UI. So if you like using other "presets" of status_text and status_emoji, you're forced to choose them manually each time, which involves several clicks and searching for the correct emoji icon.
 
-There is a kludgy, RSI inducing way to achieve this in slack: edit your profile and set your first name to something like "Ryan (lunch)". This works, but it's a lot of mousing around.
+This script is an attempt to streamline the process and allow you to add more "custom presets" that can be triggered from the command line.
 
-This script does it for you, by using an undocumented api to set the first name in your slack profile.
-
-Note: This hack is useful only if your co-worker's slack preferences are set to "display real names". See the Slack Preferences / Messages & Media / Display Options:
-
-![Settings](https://raw.githubusercontent.com/rydama/slack-status/master/slack-settings.png)
+Please suggest more custom presets or feel free to fork/contribute and I'll merge new presets into the script :)
 
 
 ## Installation
@@ -21,25 +23,28 @@ First, get your slack api token [here](https://api.slack.com/docs/oauth-test-tok
 
 Example setup for Mac OSX:
 
-1. Save [slack.rb](https://raw.githubusercontent.com/rydama/slack-status/master/slack.rb) in your home directory
+1. Save [slack.rb](https://raw.githubusercontent.com/briantully/slack-status/master/slack.rb) in your home directory
 2. Open a terminal
 3. `chmod +x slack.rb`
 4. Edit `.bashrc` and add the following:
 ```
 export SLACK_URL=https://yourteam.slack.com
 export SLACK_TOKEN=your-slack-token
-alias away='~/slack.rb away'
-alias lunch='~/slack.rb away lunch'
-alias back='~/slack.rb back'
+alias slack="$HOME/slack.rb"
 ```
-
-Finally, `source .bashrc`
+5. Finally, `source .bashrc`
 
 ## Example Usage
 
 ```
-{away | back } [message]
-away lunch
-back
-back in meeting
+# Examples:
+slack away [message]
+slack coffee
+slack lunch
+slack walkies
+slack dog
+slack pto
+slack zoom
+slack meeting
+slack back
 ```

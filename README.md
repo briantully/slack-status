@@ -37,14 +37,16 @@ alias slack="$HOME/slack.rb"
 ## Example Usage
 
 ```
-# Examples:
+# Examples: [message] is optional
 slack away [message]
 slack coffee
 slack lunch
 slack walkies
 slack dog
-slack pto
-slack zoom
+slack pto [message]
+slack zoom [message]
 slack meeting
-slack back
+slack office
+slack home [message]
+slack back [message]
 ```

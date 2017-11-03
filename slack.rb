@@ -10,16 +10,18 @@
 # => alias slack='~/slack.rb'
 # => so that you can run commands via 'slack away brb'
 #
-# Examples:
+# Examples: [message] is optional
 # slack away [message]
 # slack coffee
 # slack lunch
 # slack walkies
 # slack dog
-# slack pto
-# slack zoom
+# slack pto [message]
+# slack zoom [message]
 # slack meeting
-# slack back
+# slack office
+# slack home [message]
+# slack back [message]
 #
 
 require "net/http"
@@ -27,7 +29,7 @@ require "json"
 
 command = ARGV[0]
 if command.nil?
-  puts "Usage: slack { away | coffee | lunch | walkies | dog | pto | zoom | meeting | loadtesting | back } [message]"
+  puts "Usage: slack { away [message] | coffee | lunch | walkies | dog | pto [message] | zoom [message] | meeting | loadtesting | office | home [message] | back [message] }"
   Kernel.exit(-1)
 end
 
@@ -47,15 +49,13 @@ SLACK_API_ROOT="#{slack_url}/api"
 GET_PROFILE_URL = "#{SLACK_API_ROOT}/users.profile.get?token=#{token}"
 SET_PROFILE_URL = "#{SLACK_API_ROOT}/users.profile.set?token=#{token}"
 
-BACK_STATUS = { "status_text": "Working remotely", "status_emoji": ":house_with_garden:" }.to_json
 COFFEE_STATUS = { "status_text": "Getting coffee", "status_emoji": ":coffee:" }.to_json
 LUNCH_STATUS = { "status_text": "Lunch", "status_emoji": ":fork_and_knife:" }.to_json
 WALKIES_STATUS = { "status_text": "Walkies", "status_emoji": ":walking:" }.to_json
 DOG_STATUS = { "status_text": "Walking the pooch", "status_emoji": ":dog:" }.to_json
-PTO_STATUS = { "status_text": "PTO", "status_emoji": ":palm_tree:" }.to_json
-ZOOM_STATUS = { "status_text": "Zoom meeting", "status_emoji": ":zoom:" }.to_json
 MEETING_STATUS = { "status_text": "In a meeting", "status_emoji": ":calendar:" }.to_json
 LOADTESTING_STATUS = { "status_text": "Load Testing", "status_emoji": ":chart_with_upwards_trend:" }.to_json
+OFFICE_STATUS = { "status_text": "In the office", "status_emoji": ":office:" }.to_json
 
 AWAY_URL = "#{SLACK_API_ROOT}/users.setPresence?presence=away&token=#{token}"
 BACK_URL = "#{SLACK_API_ROOT}/users.setPresence?presence=auto&token=#{token}"
@@ -100,7 +100,6 @@ def message_from_args
   if ARGV.length > 1
     message = ARGV[1..ARGV.length].join(" ")
   end
-
   message
 end
 
@@ -109,29 +108,68 @@ when "away"
   if message_from_args
     message = message_from_args
   else
-    message = "away"
+    message = "Away from keyboard"
   end
   AWAY_STATUS = { "status_text": "#{message}", "status_emoji": ":speech_balloon:" }.to_json
   set_status_away(AWAY_STATUS)
+
 when "coffee"
   set_status_away(COFFEE_STATUS)
+
 when "lunch"
   set_status_away(LUNCH_STATUS)
+
 when "walkies"
   set_status_away(WALKIES_STATUS)
+
 when "dog"
   set_status_away(DOG_STATUS)
+
 when "pto"
+  if message_from_args
+    message = message_from_args
+  else
+    message = "PTO"
+  end
+  PTO_STATUS = { "status_text": "#{message}", "status_emoji": ":palm_tree:" }.to_json
   set_status_away(PTO_STATUS)
+
 when "zoom"
+  if message_from_args
+    message = message_from_args
+  else
+    message = "Zoom meeting"
+  end
+  ZOOM_STATUS = { "status_text": "#{message}", "status_emoji": ":zoom:" }.to_json
   set_status_back(ZOOM_STATUS)
+
 when "meeting"
   set_status_back(MEETING_STATUS)
+
 when "loadtesting"
   set_status_back(LOADTESTING_STATUS)
+
+when "office"
+  set_status_back(OFFICE_STATUS)
+
+when "home"
+  if message_from_args
+  message = message_from_args
+  else
+    message = "Working remotely"
+  end
+  HOME_STATUS = { "status_text": "#{message}", "status_emoji": ":house_with_garden:" }.to_json
+  set_status_back(HOME_STATUS)
+
 when "back"
+  if message_from_args
+  message = message_from_args
+  else
+    message = "Working remotely"
+  end
+  BACK_STATUS = { "status_text": "#{message}", "status_emoji": ":house_with_garden:" }.to_json
   set_status_back(BACK_STATUS)
 
 else
-  puts "Usage: slack { away | coffee | lunch | walkies | dog | pto | zoom | meeting | loadtesting | back } [message]"
+  puts "Usage: slack { away [message] | coffee | lunch | walkies | dog | pto [message] | zoom [message] | meeting | loadtesting | office | home [message] | back [message] }"
 end
